@@ -23,21 +23,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
      @Override
      public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT){
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT && xDirection != -5){
          xDirection = 5;
           yDirection = 0;
     }
-    if (e.getKeyCode() == KeyEvent.VK_LEFT){
+    if (e.getKeyCode() == KeyEvent.VK_LEFT && xDirection != 5){
     xDirection = -5;
     yDirection = 0;
     }
 
-    if (e.getKeyCode() == KeyEvent.VK_UP) {
+    if (e.getKeyCode() == KeyEvent.VK_UP && yDirection != 5) {
     xDirection = 0;
     yDirection = -5;
     }
 
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+        if (e.getKeyCode() == KeyEvent.VK_DOWN && yDirection != -5) {
     xDirection = 0;
     yDirection = 5;
     }
