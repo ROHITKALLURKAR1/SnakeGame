@@ -40,9 +40,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
     xDirection = 0;
     yDirection = 5;
-}
+    }
 
      }
+
 
      @Override
      public void keyReleased(KeyEvent e) {
