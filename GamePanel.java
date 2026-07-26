@@ -11,8 +11,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     int x = 100;
     int y = 100;
 
-    int xDirection = 5;
+    int xDirection = 25;
     int yDirection = 0;
+
+    int foodX = 300;
+    int foodY = 300;
 
      public GamePanel(){
        timer = new Timer(100, this);
@@ -23,23 +26,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
      @Override
      public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT && xDirection != -5){
-         xDirection = 5;
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT && xDirection != -25){
+         xDirection = 25;
           yDirection = 0;
     }
-    if (e.getKeyCode() == KeyEvent.VK_LEFT && xDirection != 5){
-    xDirection = -5;
+    if (e.getKeyCode() == KeyEvent.VK_LEFT && xDirection != 25){
+    xDirection = -25;
     yDirection = 0;
     }
 
-    if (e.getKeyCode() == KeyEvent.VK_UP && yDirection != 5) {
+    if (e.getKeyCode() == KeyEvent.VK_UP && yDirection != 25) {
     xDirection = 0;
-    yDirection = -5;
+    yDirection = -25;
     }
 
-        if (e.getKeyCode() == KeyEvent.VK_DOWN && yDirection != -5) {
+        if (e.getKeyCode() == KeyEvent.VK_DOWN && yDirection != -25) {
     xDirection = 0;
-    yDirection = 5;
+    yDirection = 25;
     }
 
      }
@@ -61,12 +64,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
         g.setColor(Color.GREEN);
        g.fillRect(x, y, 25, 25);
+
+       g.setColor(Color.RED);
+      g.fillRect(foodX, foodY, 25, 25);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
       x += xDirection;
       y += yDirection;
+
+      if (x == foodX && y == foodY) {
+        System.out.println("Food eaten!");
+    }
+
 
     repaint();
     }
