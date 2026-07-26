@@ -9,8 +9,6 @@ import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
     Timer timer;
-    int x = 100;
-    int y = 100;
 
     int xDirection = 25;
     int yDirection = 0;
@@ -19,11 +17,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     int foodY = 300;
     Random random = new Random();
 
+    int[] snakeX = new int[100];
+    int[] snakeY = new int[100];
+    int snakeLength = 3;
+
      public GamePanel(){
        timer = new Timer(100, this);
         timer.start();
         setFocusable(true);
         addKeyListener(this);
+
+        snakeX[0] = 100;
+        snakeY[0] = 100;
+
+        snakeX[1] = 75;
+        snakeY[1] = 100;
+
+        snakeX[2] = 50;
+        snakeY[2] = 100;
      }
 
      @Override
@@ -65,7 +76,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         super.paintComponent(g);
 
         g.setColor(Color.GREEN);
-       g.fillRect(x, y, 25, 25);
+
+      for (int i = 0; i < snakeLength; i++) {
+      g.fillRect(snakeX[i], snakeY[i], 25, 25);
+      }
 
        g.setColor(Color.RED);
       g.fillRect(foodX, foodY, 25, 25);
@@ -73,13 +87,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      x += xDirection;
-      y += yDirection;
+      for (int i = snakeLength - 1; i > 0; i--) {
+    snakeX[i] = snakeX[i - 1];
+    snakeY[i] = snakeY[i - 1];
+    }
 
-      if (x == foodX && y == foodY) {
+      snakeX[0] += xDirection;
+      snakeY[0] += yDirection;
+
+      if (snakeX[0] == foodX && snakeY[0] == foodY) {
     System.out.println("Food eaten!");
     newFood();
-}
+    }
 
     repaint();
     }
