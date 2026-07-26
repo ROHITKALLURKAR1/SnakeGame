@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import javax.swing.Timer;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
     Timer timer;
@@ -16,6 +17,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     int foodX = 300;
     int foodY = 300;
+    Random random = new Random();
 
      public GamePanel(){
        timer = new Timer(100, this);
@@ -75,11 +77,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
       y += yDirection;
 
       if (x == foodX && y == foodY) {
-        System.out.println("Food eaten!");
-    }
-
+    System.out.println("Food eaten!");
+    newFood();
+}
 
     repaint();
     }
+
+    public void newFood() {
+    foodX = random.nextInt(20) * 25;
+    foodY = random.nextInt(20) * 25;
+}
     
 }
