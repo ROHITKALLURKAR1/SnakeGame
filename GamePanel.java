@@ -1,3 +1,5 @@
+
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,10 +24,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     int snakeLength = 3;
 
     boolean gameOver = false;
+    int score = 0;
+
+   
 
      public GamePanel(){
        timer = new Timer(100, this);
         timer.start();
+
         setFocusable(true);
         addKeyListener(this);
         //haed
@@ -37,6 +43,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         //tail
         snakeX[2] = 50;
         snakeY[2] = 100;
+
      }
 
      @Override
@@ -83,6 +90,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
       g.fillRect(snakeX[i], snakeY[i], 25, 25);
       }
 
+      g.setColor(Color.BLACK);
+      g.setFont(new Font("Arial", Font.BOLD, 25));
+      g.drawString("Score: " + score, 20, 30);
+
        g.setColor(Color.RED);
       g.fillRect(foodX, foodY, 25, 25);
 
@@ -113,12 +124,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     gameOver = true;
 
     timer.stop();
+    int choice = JOptionPane.showConfirmDialog(
+        this,
+        "Game Over!\nScore: " + score + "\nDo you want to restart?",
+        "Game Over",
+        JOptionPane.YES_NO_OPTION);
+
+    if (choice == JOptionPane.YES_OPTION) {
+      restartGame();
+    } else {
+      System.exit(0);
+    }
     repaint();
 }
 
       if (snakeX[0] == foodX && snakeY[0] == foodY) {
-    System.out.println("Food eaten!");
+    //System.out.println("Food eaten!");
     snakeLength++;
+    score++;
     newFood();
 
     }
@@ -129,6 +152,28 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void newFood() {
     foodX = random.nextInt(20) * 25;
     foodY = random.nextInt(20) * 25;
+}
+public void restartGame(){
+   snakeLength = 3;
+    score = 0;
+    gameOver = false;
+
+    xDirection = 25;
+    yDirection = 0;
+
+    snakeX[0] = 100;
+    snakeY[0] = 100;
+
+    snakeX[1] = 75;
+    snakeY[1] = 100;
+
+    snakeX[2] = 50;
+    snakeY[2] = 100;
+
+    newFood();
+
+    timer.start();
+    repaint();
 }
     
 }
