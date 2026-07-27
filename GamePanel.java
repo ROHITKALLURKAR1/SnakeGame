@@ -21,18 +21,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     int[] snakeY = new int[100];
     int snakeLength = 3;
 
+    boolean gameOver = false;
+
      public GamePanel(){
        timer = new Timer(100, this);
         timer.start();
         setFocusable(true);
         addKeyListener(this);
-
+        //haed
         snakeX[0] = 100;
         snakeY[0] = 100;
-
+        //body
         snakeX[1] = 75;
         snakeY[1] = 100;
-
+        //tail
         snakeX[2] = 50;
         snakeY[2] = 100;
      }
@@ -83,6 +85,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
        g.setColor(Color.RED);
       g.fillRect(foodX, foodY, 25, 25);
+
+      if(gameOver == true){
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 40));
+        
+        g.drawString("game over", 200, 250);
+      }
     }
 
     @Override
@@ -94,6 +104,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
       snakeX[0] += xDirection;
       snakeY[0] += yDirection;
+
+      if (snakeX[0] < 0 ||
+    snakeX[0] >= getWidth() ||
+    snakeY[0] < 0 ||
+    snakeY[0] >= getHeight()) {
+    
+    gameOver = true;
+
+    timer.stop();
+    repaint();
+}
 
       if (snakeX[0] == foodX && snakeY[0] == foodY) {
     System.out.println("Food eaten!");
