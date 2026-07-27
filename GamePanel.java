@@ -64,7 +64,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
      @Override
      public void keyReleased(KeyEvent e) {
 
-     }
+     }  
 
      @Override
      public void keyTyped(KeyEvent e) {
@@ -97,7 +97,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
       if (snakeX[0] == foodX && snakeY[0] == foodY) {
     System.out.println("Food eaten!");
+    snakeLength++;
     newFood();
+
     }
 
     repaint();
