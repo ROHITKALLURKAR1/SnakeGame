@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     boolean gameOver = false;
     int score = 0;
+    int highscore=0;
 
    
 
@@ -96,14 +97,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
        g.setColor(Color.RED);
       g.fillRect(foodX, foodY, 25, 25);
-
-      if(gameOver == true){
-
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 40));
-        
-        g.drawString("game over", 200, 250);
-      }
+        highscore=score;
+  
+     
     }
 
     @Override
@@ -139,7 +135,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 }
 
       if (snakeX[0] == foodX && snakeY[0] == foodY) {
-    //System.out.println("Food eaten!");
+    
     snakeLength++;
     score++;
     newFood();
@@ -156,6 +152,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 public void restartGame(){
    snakeLength = 3;
     score = 0;
+
     gameOver = false;
 
     xDirection = 25;
