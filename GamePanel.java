@@ -10,147 +10,144 @@ import javax.swing.Timer;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
-    Timer timer;
+  Timer timer;
 
-    int xDirection = 25;
-    int yDirection = 0;
+  int xDirection = 25;
+  int yDirection = 0;
 
-    int foodX = 300;
-    int foodY = 300;
-    Random random = new Random();
+  int foodX = 300;
+  int foodY = 300;
+  Random random = new Random();
 
-    int[] snakeX = new int[100];
-    int[] snakeY = new int[100];
-    int snakeLength = 3;
+  int[] snakeX = new int[100];
+  int[] snakeY = new int[100];
+  int snakeLength = 3;
 
-    boolean gameOver = false;
-    int score = 0;
-    int highscore=0;
+  boolean gameOver = false;
+  int score = 0;
+  int highscore = 0;
 
-   
+  public GamePanel() {
+    timer = new Timer(100, this);
+    timer.start();
 
-     public GamePanel(){
-       timer = new Timer(100, this);
-        timer.start();
+    setFocusable(true);
+    addKeyListener(this);
+    // haed
+    snakeX[0] = 100;
+    snakeY[0] = 100;
+    // body
+    snakeX[1] = 75;
+    snakeY[1] = 100;
+    // tail
+    snakeX[2] = 50;
+    snakeY[2] = 100;
 
-        setFocusable(true);
-        addKeyListener(this);
-        //haed
-        snakeX[0] = 100;
-        snakeY[0] = 100;
-        //body
-        snakeX[1] = 75;
-        snakeY[1] = 100;
-        //tail
-        snakeX[2] = 50;
-        snakeY[2] = 100;
+  }
 
-     }
-
-     @Override
-     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT && xDirection != -25){
-         xDirection = 25;
-          yDirection = 0;
+  @Override
+  public void keyPressed(KeyEvent e) {
+    if (e.getKeyCode() == KeyEvent.VK_RIGHT && xDirection != -25) {
+      xDirection = 25;
+      yDirection = 0;
     }
-    if (e.getKeyCode() == KeyEvent.VK_LEFT && xDirection != 25){
-    xDirection = -25;
-    yDirection = 0;
+    if (e.getKeyCode() == KeyEvent.VK_LEFT && xDirection != 25) {
+      xDirection = -25;
+      yDirection = 0;
     }
 
     if (e.getKeyCode() == KeyEvent.VK_UP && yDirection != 25) {
-    xDirection = 0;
-    yDirection = -25;
+      xDirection = 0;
+      yDirection = -25;
     }
 
-        if (e.getKeyCode() == KeyEvent.VK_DOWN && yDirection != -25) {
-    xDirection = 0;
-    yDirection = 25;
+    if (e.getKeyCode() == KeyEvent.VK_DOWN && yDirection != -25) {
+      xDirection = 0;
+      yDirection = 25;
     }
 
-     }
+  }
 
+  @Override
+  public void keyReleased(KeyEvent e) {
 
-     @Override
-     public void keyReleased(KeyEvent e) {
+  }
 
-     }  
+  @Override
+  public void keyTyped(KeyEvent e) {
 
-     @Override
-     public void keyTyped(KeyEvent e) {
+  }
 
-     }
+  @Override
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
 
-     @Override
-      protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    g.setColor(Color.GREEN);
 
-        g.setColor(Color.GREEN);
-
-      for (int i = 0; i < snakeLength; i++) {
+    for (int i = 0; i < snakeLength; i++) {
       g.fillRect(snakeX[i], snakeY[i], 25, 25);
+    }
+
+    g.setColor(Color.BLACK);
+    g.setFont(new Font("Arial", Font.BOLD, 25));
+    g.drawString("Score: " + score, 20, 30);
+
+    g.setColor(Color.RED);
+    g.fillRect(foodX, foodY, 25, 25);
+    highscore = score;
+
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    for (int i = snakeLength - 1; i > 0; i--) {
+      snakeX[i] = snakeX[i - 1];
+      snakeY[i] = snakeY[i - 1];
+    }
+
+    snakeX[0] += xDirection;
+    snakeY[0] += yDirection;
+
+    if (snakeX[0] < 0 ||
+        snakeX[0] >= getWidth() ||
+        snakeY[0] < 0 ||
+        snakeY[0] >= getHeight()) {
+
+      gameOver = true;
+
+      timer.stop();
+      int choice = JOptionPane.showConfirmDialog(
+          this,
+          "Game Over!\nScore: " + score + "\nDo you want to restart?",
+          "Game Over",
+          JOptionPane.YES_NO_OPTION);
+
+      if (choice == JOptionPane.YES_OPTION) {
+        restartGame();
+      } else {
+        System.exit(0);
       }
-
-      g.setColor(Color.BLACK);
-      g.setFont(new Font("Arial", Font.BOLD, 25));
-      g.drawString("Score: " + score, 20, 30);
-
-       g.setColor(Color.RED);
-      g.fillRect(foodX, foodY, 25, 25);
-        highscore=score;
-  
-     
+      repaint();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      for (int i = snakeLength - 1; i > 0; i--) {
-    snakeX[i] = snakeX[i - 1];
-    snakeY[i] = snakeY[i - 1];
-    }
+    if (snakeX[0] == foodX && snakeY[0] == foodY) {
 
-      snakeX[0] += xDirection;
-      snakeY[0] += yDirection;
-
-      if (snakeX[0] < 0 ||
-    snakeX[0] >= getWidth() ||
-    snakeY[0] < 0 ||
-    snakeY[0] >= getHeight()) {
-    
-    gameOver = true;
-
-    timer.stop();
-    int choice = JOptionPane.showConfirmDialog(
-        this,
-        "Game Over!\nScore: " + score + "\nDo you want to restart?",
-        "Game Over",
-        JOptionPane.YES_NO_OPTION);
-
-    if (choice == JOptionPane.YES_OPTION) {
-      restartGame();
-    } else {
-      System.exit(0);
-    }
-    repaint();
-}
-
-      if (snakeX[0] == foodX && snakeY[0] == foodY) {
-    
-    snakeLength++;
-    score++;
-    newFood();
+      snakeLength++;
+      score++;
+      newFood();
 
     }
 
     repaint();
-    }
+  }
 
-    public void newFood() {
+  public void newFood() {
     foodX = random.nextInt(20) * 25;
     foodY = random.nextInt(20) * 25;
-}
-public void restartGame(){
-   snakeLength = 3;
+  }
+
+  public void restartGame() {
+    snakeLength = 3;
     score = 0;
 
     gameOver = false;
@@ -171,6 +168,6 @@ public void restartGame(){
 
     timer.start();
     repaint();
-}
-    
+  }
+
 }
