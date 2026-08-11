@@ -1,2 +1,16 @@
 *.class
 tempCodeRunnerFile.java
+
+# Java compiled files
+
+# JAR/build files
+*.jar
+
+# Generated application/package files
+release/
+app/
+installer/
+
+# IDE files
+.vscode/
+.idea/
